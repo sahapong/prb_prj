@@ -60,6 +60,22 @@ function download(dataURL, filename) {
   }
 }
 
+async function completeDoc(){
+  var dataURL = signaturePad.toDataURL('image/svg+xml');
+  document.getElementById("template").src = "example.jpg";
+  document.getElementById("signature").src = dataURL;
+}
+
+function download() {
+
+  html2canvas(document.querySelector("#prb")).then(canvas => {
+    canvas.id = 'resultCanvas';
+    document.getElementById("result").appendChild(canvas);
+    console.log(canvas);
+  });
+}
+
+
 // One could simply use Canvas#toBlob method instead, but it's just to show
 // that it can be done using result of SignaturePad#toDataURL.
 function dataURLToBlob(dataURL) {
@@ -99,36 +115,28 @@ undoButton.addEventListener("click", function (event) {
 //   signaturePad.penColor = color;
 // });
 
-function capture() {
-  var canvas2 = document.getElementById("resultCanvas");
-  const image = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream')
-  const a = document.createElement('a')
-  a.setAttribute('download', 'my-image.png')
-  a.setAttribute('href', image)
-  a.click()
-}
 
 genButton.addEventListener("click", function (event) {
-  var dataURL = signaturePad.toDataURL('image/svg+xml');
-  document.getElementById("template").src = "example.jpg";
-  document.getElementById("signature").src = dataURL;
-  document.getElementById("prb").style.display = "block";
-  html2canvas(document.querySelector("#prb"), { useCORS: true }).then(canvas => {
-    canvas.id = 'resultCanvas';
-    document.getElementById("result").appendChild(canvas);
-    console.log(canvas);
-    const image = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream')
-    const a = document.createElement('a')
-    a.setAttribute('download', 'my-image.png')
-    a.setAttribute('href', image)
-    a.click()
-  });
-  document.getElementById("prb").style.display = "none";
-
+  // document.getElementById("prb").style.display = "block";
+  completeDoc();
+  // document.getElementById("prb").style.display = "none";
 });
 
 downloadButton.addEventListener("click", function (event) {
   //download function
-  capture();
+  // capture();
+  html2canvas(document.querySelector("#prb")).then(canvas => {
+    var dataURL = canvas.toDataURL( "image/png" );
+    var data = atob( dataURL.substring( "data:image/png;base64,".length ) ),
+        asArray = new Uint8Array(data.length);
+
+    for( var i = 0, len = data.length; i < len; ++i ) {
+        asArray[i] = data.charCodeAt(i);    
+    }
+
+    var blob = new Blob( [ asArray.buffer ], {type: "image/png"} );
+    saveAs(blob, "photo.png");
+});
+  
 });
 
