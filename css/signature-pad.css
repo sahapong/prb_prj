@@ -124,6 +124,7 @@ canvas {
 #prb {
   position: relative;
   width:900px;
+  height:1280px;
   top: 0;
   left: 0;
 }
