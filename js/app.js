@@ -13,7 +13,6 @@ var signaturePad = new SignaturePad(canvas, {
   // backgroundColor: 'rgb(255, 255, 255)'
   backgroundColor: 'rgb(255, 255, 255)'
 });
-document.getElementById("prb").style.display = "none";
 
 // Adjust canvas coordinate space taking into account pixel ratio,
 // to make it look crisp on mobile devices.
@@ -22,7 +21,7 @@ function resizeCanvas() {
   // When zoomed out to less than 100%, for some very strange reason,
   // some browsers report devicePixelRatio as less than 1
   // and only part of the canvas is cleared then.
-  var ratio =  Math.max(window.devicePixelRatio || 1, 1);
+  var ratio = Math.max(window.devicePixelRatio || 1, 1);
 
   // This part causes the canvas to be cleared
   canvas.width = canvas.offsetWidth * ratio;
@@ -100,14 +99,29 @@ undoButton.addEventListener("click", function (event) {
 //   signaturePad.penColor = color;
 // });
 
+function capture() {
+  var canvas2 = document.getElementById("resultCanvas");
+  const image = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream')
+  const a = document.createElement('a')
+  a.setAttribute('download', 'my-image.png')
+  a.setAttribute('href', image)
+  a.click()
+}
+
 genButton.addEventListener("click", function (event) {
   var dataURL = signaturePad.toDataURL('image/svg+xml');
+  document.getElementById("template").src = "example.jpg";
+  document.getElementById("signature").src = dataURL;
   document.getElementById("prb").style.display = "block";
-  document.getElementById("template").src="example.jpg";
-  document.getElementById("signature").src=dataURL;
-  html2canvas(document.querySelector("#prb")).then(canvas => {
+  html2canvas(document.querySelector("#prb"), { useCORS: true }).then(canvas => {
+    canvas.id = 'resultCanvas';
     document.getElementById("result").appendChild(canvas);
     console.log(canvas);
+    const image = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream')
+    const a = document.createElement('a')
+    a.setAttribute('download', 'my-image.png')
+    a.setAttribute('href', image)
+    a.click()
   });
   document.getElementById("prb").style.display = "none";
 
@@ -115,5 +129,6 @@ genButton.addEventListener("click", function (event) {
 
 downloadButton.addEventListener("click", function (event) {
   //download function
+  capture();
 });
 
