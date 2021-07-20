@@ -60,19 +60,21 @@ function download(dataURL, filename) {
   }
 }
 
-async function completeDoc(){
+function completeDoc(){
   var dataURL = signaturePad.toDataURL('image/svg+xml');
   document.getElementById("template").src = "example.jpg";
   document.getElementById("signature").src = dataURL;
 }
 
-function download() {
-
-  html2canvas(document.querySelector("#prb")).then(canvas => {
-    canvas.id = 'resultCanvas';
-    document.getElementById("result").appendChild(canvas);
-    console.log(canvas);
-  });
+async function download() {
+  const canvas = await html2canvas(document.querySelector("#prb"));
+  canvas.style.display = "none";
+  document.body.appendChild(canvas);
+  const image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+  const a = document.createElement("a");
+  a.setAttribute("download", `info.png`);
+  a.setAttribute("href", image);
+  a.click();
 }
 
 
@@ -124,19 +126,7 @@ genButton.addEventListener("click", function (event) {
 
 downloadButton.addEventListener("click", function (event) {
   //download function
-  // capture();
-  html2canvas(document.querySelector("#prb")).then(canvas => {
-    var dataURL = canvas.toDataURL( "image/png" );
-    var data = atob( dataURL.substring( "data:image/png;base64,".length ) ),
-        asArray = new Uint8Array(data.length);
-
-    for( var i = 0, len = data.length; i < len; ++i ) {
-        asArray[i] = data.charCodeAt(i);    
-    }
-
-    var blob = new Blob( [ asArray.buffer ], {type: "image/png"} );
-    saveAs(blob, "photo.png");
-});
+  download();
   
 });
 
