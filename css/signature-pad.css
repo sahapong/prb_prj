@@ -123,6 +123,7 @@ canvas {
 
 #prb {
   position: relative;
+  width:900px;
   top: 0;
   left: 0;
 }
