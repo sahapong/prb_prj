@@ -75,6 +75,7 @@ async function download() {
   a.setAttribute("download", `info.png`);
   a.setAttribute("href", image);
   a.click();
+  console.log(image.width)
 }
 
 
