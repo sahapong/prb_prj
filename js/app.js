@@ -103,6 +103,7 @@ undoButton.addEventListener("click", function (event) {
 genButton.addEventListener("click", function (event) {
   var dataURL = signaturePad.toDataURL('image/svg+xml');
   document.getElementById("prb").style.display = "block";
+  document.getElementById("template").src="example.jpg";
   document.getElementById("signature").src=dataURL;
   html2canvas(document.querySelector("#prb")).then(canvas => {
     document.getElementById("result").appendChild(canvas);
