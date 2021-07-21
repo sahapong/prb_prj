@@ -1,5 +1,5 @@
 var wrapper = document.getElementById("signature-pad");
-var fname = document.getElementById("fname");
+var currentdate = new Date(); 
 var clearButton = wrapper.querySelector("[data-action=clear]");
 var changeColorButton = wrapper.querySelector("[data-action=change-color]");
 var undoButton = wrapper.querySelector("[data-action=undo]");
@@ -13,7 +13,7 @@ var signaturePad = new SignaturePad(canvas, {
   // backgroundColor: 'rgb(255, 255, 255)'
   backgroundColor: 'rgb(255, 255, 255)'
 });
-
+downloadButton.style.display="none";
 // Adjust canvas coordinate space taking into account pixel ratio,
 // to make it look crisp on mobile devices.
 // This also causes canvas to be cleared.
@@ -62,8 +62,14 @@ function download(dataURL, filename) {
 
 function completeDoc(){
   var dataURL = signaturePad.toDataURL('image/svg+xml');
-  document.getElementById("template").src = "example.jpg";
+  document.getElementById("template").src = "template.jpg";
   document.getElementById("signature").src = dataURL;
+  document.getElementById("fullName-fill").innerText = document.getElementById("fname").value+" "+document.getElementById("lname").value;
+  document.getElementById("fullName-2-fill").innerText = document.getElementById("fname").value+" "+document.getElementById("lname").value;
+  document.getElementById("nid-fill").innerText =document.getElementById("nid").value;
+  document.getElementById("location-fill").innerText =document.getElementById("location").value;
+  document.getElementById("day-fill").innerText =currentdate.getDate();
+  document.getElementById("month-fill").innerText =currentdate.getMonth()+1;
 }
 
 async function download() {
@@ -72,7 +78,7 @@ async function download() {
   document.body.appendChild(canvas);
   const image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
   const a = document.createElement("a");
-  a.setAttribute("download", `info.png`);
+  a.setAttribute("download", `result.png`);
   a.setAttribute("href", image);
   a.click();
   console.log(image.width)
@@ -122,6 +128,7 @@ undoButton.addEventListener("click", function (event) {
 genButton.addEventListener("click", function (event) {
   // document.getElementById("prb").style.display = "block";
   completeDoc();
+  downloadButton.style.display="inline";
   // document.getElementById("prb").style.display = "none";
 });
 

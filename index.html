@@ -13,52 +13,63 @@
   <link rel="stylesheet" href="css/signature-pad.css">
 
 </head>
-  
+  <body>
 
-  <div id="signature-pad" class="signature-pad">
-    <div class="signature_pad--footer">
+    <form>
+  <div id="signature-pad">
+    <div class="form">
       <table>
         <tr><td><label for="location">เขียนที่</label></td>
-        <td><input type="text" id="location"></td></tr>
+        <td><input type="text" id="location" required></td></tr>
         <tr><td><label for="fname">ชื่อ</label></td>
-        <td><input type="text" id="fname"></td></tr>
+        <td><input type="text" id="fname" required></td></tr>
         <tr><td><label for="lname">นามสกุล</label></td>
-        <td><input type="text" id="lname"></td></tr>
+        <td><input type="text" id="lname" required></td></tr>
         <tr><td><label for="nid">เลขที่บัตรประจำตัวประชาชน</label></td>
-        <td><input type="text" id="nid"></td></tr>
-        <tr><td><label for="prov">จังหวัดที่อยู่อาศัย</label></td>
+        <td><input type="text" id="nid" required></td></tr>
+        <!-- <tr><td><label for="prov">จังหวัดที่อยู่อาศัย</label></td>
         <td> <input type="text" id="prov"></td></tr>
         <tr><td><label for="phone">เบอร์ที่ติดต่อได้ </label></td>
-        <td> <input type="text" id="phone"></td></tr>
+        <td> <input type="text" id="phone"></td></tr> -->
       </table>
     </div>
     <div class="signature-pad--body">
       <canvas></canvas>
-    </div>
-    <div class="signature-pad--footer">
-      <div class="description">Sign above</div>
 
+      <button type="button" class="button clear" data-action="clear">ลบ</button>
+      <button type="button" class="button" data-action="undo">แก้ไข</button>
+    </div>
+    <div class="footer">
+      <div>
+        <label>
+            <input name="verify" type="checkbox" required="">
+            <span></span> ข้าพเจ้ายินยอมลงชื่อ
+        </label>
+        <a href="/นโยบายการคุ้มครองข้อมูลส่วนบุคคล.pdf" target="_blank">(นโยบายคุ้มครองข้อมูลส่วนบุคคล)</a>
+    </div>
       <div class="signature-pad--actions">
         <div>
-          <button type="button" class="button clear" data-action="clear">Clear</button>
-          <!-- <button type="button" class="button" data-action="change-color">Change color</button> -->
-          <button type="button" class="button" data-action="undo">Undo</button>
 
-        </div>
-        <div>
-          <button type="button" class="button save" data-action="genImage">Submit</button>
-          <button type="button" class="button save" data-action="download">Download</button>
+          <button type="submit" data-action="genImage">ยืนยัน</button>
+          <button type="button" data-action="download">บันทึก</button>
         </div>
 
 
       </div>
     </div>
     <div id="prb" class="result">
-      <img class="image1" id="template" />
-      <img class="image2" id ='signature'/>   
+      <img id="template" />
+      <img id ='signature'/>   
+      <p id='location-fill'></p>
+      <p id='fullName-fill'></p>
+      <p id='nid-fill'></p>
+      <p id='fullName-2-fill'></p>
+      <p id='day-fill'></p>
+      <p id='month-fill'></p>
     </div>
   </div>
 
+</form>
 
   <script src="js/signature_pad.umd.js"></script>
   <script src="js/html2canvas.min.js"></script>
